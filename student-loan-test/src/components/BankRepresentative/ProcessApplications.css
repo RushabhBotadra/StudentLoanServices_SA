@@ -86,7 +86,7 @@
   padding: 30px;
   max-width: 1200px;
   margin: 0 auto;
-  padding-top: 120px; /* Adjusted for header height */
+  padding-top: 120px; 
 }
 
 .process-applications-loading {

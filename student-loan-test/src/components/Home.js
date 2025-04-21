@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <header className="header">
-        <Link to="/" className="logo">Student Loan Service</Link>
+        <Link to="/bank-representative/dashboard" className="logo">Student Loan Service</Link>
         {/* <nav className="nav-links">
           <Link to="/login">Log In</Link>
           <Link to="/signup">Sign Up</Link>

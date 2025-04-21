@@ -10,16 +10,24 @@ const RepresentativeDashboard = () => {
   const [representatives, setRepresentatives] = useState([]);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn'); 
+    if (isLoggedIn !== 'true') {
+      navigate('/login', { replace: true });
+    }
+  }, [navigate]);
+  
   // Handle logout
   const handleLogout = () => {
-    navigate('/login');
+    localStorage.removeItem('isLoggedIn');
+    navigate('/login', { replace: true });
   };
 
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div className="header-branding">
-          <Link to="/" className="logo">Student Loan Service</Link>
+          <Link to="/bank-representative/dashboard" className="logo">Student Loan Service</Link>
         </div>
         <div className="header-actions">
           <button className="btn-logout" onClick={handleLogout}>

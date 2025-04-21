@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/StudentLoanServices', // Backend base URL
+  baseURL: 'http://localhost:8080/StudentLoanServices', 
 });
 
 const Signup = () => {
@@ -43,7 +43,7 @@ const Signup = () => {
       });
 
       if (response.data.success) {
-        // Display success message and navigate
+        localStorage.setItem('isLoggedIn', 'true');
         setMessage({ text: response.data.message, type: 'success' });
         setTimeout(() => {
           navigate('/bank-representative/dashboard');
@@ -119,20 +119,6 @@ const Signup = () => {
               required
             />
           </div>
-          {/* <div className="form-group">
-            <label htmlFor="role">I am a:</label>
-            <select
-              id="role"
-              name="role"
-              className="dropdown"
-              value={formData.role}
-              onChange={handleChange}
-            >
-              <option value="student">Student</option>
-              <option value="bankAdmin">Bank Admin</option>
-              <option value="bankRepresentative">Bank Representative</option>
-            </select>
-          </div> */}
           <button type="submit" className="btn btn-primary full-width">
             Sign Up
           </button>

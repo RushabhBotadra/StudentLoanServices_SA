@@ -1,72 +1,26 @@
-//package com.studentloanservices.sls.service;
-//
-//import com.studentloanservices.sls.dao.UserDAO;
-//import com.studentloanservices.sls.dao.LoanApplicationDAO;
-//import com.studentloanservices.sls.model.User;
-//import com.studentloanservices.sls.model.LoanApplication;
-//import org.springframework.beans.factory.annotation.Autowired;
-////import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//
-//@Service
-//public class UserService {
-//    
-//    private final UserDAO repDAO;
-//    private final LoanApplicationDAO loanDAO;
-////    private final PasswordEncoder passwordEncoder;
-//
-//    @Autowired
-//    public UserService(UserDAO repDAO, LoanApplicationDAO loanDAO) {
-//        this.repDAO = repDAO;
-//        this.loanDAO = loanDAO;
-////        this.passwordEncoder = passwordEncoder;
-//    }
-//
-//    public void registerRepresentative(User rep) {
-//        repDAO.save(rep);
-//        
-//        int userId = repDAO.getLastInsertedUserId();
-//        repDAO.insertBankRepresentative(userId);
-//        
-//    }
-//
-//    public User login(String email, String password) {
-////        User rep = repDAO.findByUserName(email);
-//    	User rep = repDAO.findByEmail(email);
-//        if (rep != null && rep.getPassword().equals(password)) {
-//            return rep;
-//        }
-//        return null;
-//    }
-//
-//}
-
 package com.studentloanservices.sls.service;
 
-import com.studentloanservices.sls.dao.UserDAO;
-import com.studentloanservices.sls.dao.LoanApplicationDAO;
-import com.studentloanservices.sls.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.studentloanservices.sls.dao.UserDAO;
+import com.studentloanservices.sls.model.User;
 
 
 @Service
 public class UserService {
     
     private final UserDAO userDAO;
-//    private final LoanApplicationDAO loanApplicationDAO;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
-//        this.loanApplicationDAO = loanApplicationDAO;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     public void registerRepresentative(User user) {
         
@@ -100,8 +54,8 @@ public class UserService {
     public User login(String email, String password) {
         try {
             User user = userDAO.findByEmail(email);
-            if (user == null && user.getPassword().equals(password)) {
-                return null; 
+            if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+                return null;
             }
             return user;
         } catch (DataAccessException e) {

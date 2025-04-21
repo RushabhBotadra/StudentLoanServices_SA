@@ -18,8 +18,17 @@ const ProcessApplications = () => {
   const [message, setMessage] = useState({ text: '', type: '' }); 
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn'); 
+    if (isLoggedIn !== 'true') {
+      navigate('/login', { replace: true });
+    }
+  }, [navigate]);
+  
+  // Handle logout
   const handleLogout = () => {
-    navigate('/login');
+    localStorage.removeItem('isLoggedIn');
+    navigate('/login', { replace: true });
   };
 
   const fetchBankAdmins = async () => {
@@ -120,7 +129,7 @@ const ProcessApplications = () => {
     <div className="process-applications-container">
       <header className="process-applications-header">
         <div className="process-applications-branding">
-          <Link to="/" className="process-applications-logo">Student Loan Service</Link>
+          <Link to="/bank-representative/dashboard" className="process-applications-logo">Student Loan Service</Link>
         </div>
         <div className="process-applications-actions">
           <Link to="/bank-representative/dashboard" className="process-applications-nav-link">Dashboard</Link>

@@ -9,44 +9,27 @@ const axiosInstance = axios.create({
 
 const AssignApplications = () => {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState('John Doe'); // Default user name
-  const [representativeId, setRepresentativeId] = useState(null); // Current representative's ID
-  const [representatives, setRepresentatives] = useState([]); // List of all representatives
-  const [applications, setApplications] = useState([]); // List of applications
-  const [selectedAssignees, setSelectedAssignees] = useState({}); // Track selected assignee for each application
-  const [message, setMessage] = useState({ text: '', type: '' }); // Unified state for messages
+  const [userName, setUserName] = useState('John Doe'); 
+  const [representativeId, setRepresentativeId] = useState(null); 
+  const [representatives, setRepresentatives] = useState([]); 
+  const [applications, setApplications] = useState([]); 
+  const [selectedAssignees, setSelectedAssignees] = useState({}); 
+  const [message, setMessage] = useState({ text: '', type: '' }); 
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn'); 
+    if (isLoggedIn !== 'true') {
+      navigate('/login', { replace: true });
+    }
+  }, [navigate]);
 
   // Handle logout
   const handleLogout = () => {
-    navigate('/login');
+    localStorage.removeItem('isLoggedIn');
+    navigate('/login', { replace: true });
   };
-
-  // // Fetch authenticated user's profile (name and ID)
-  // const fetchUserProfile = async () => {
-  //   // Placeholder for future implementation if needed
-  //   setUserName('John Doe');
-  //   setRepresentativeId(101); // Fallback ID
-  // };
-
-  // // Fetch list of all bank representatives
-  // const fetchRepresentatives = async () => {
-  //   try {
-  //     const response = await axiosInstance.get('/api/bankRepresentative/all');
-  //     if (response.data.success) {
-  //       const reps = response.data.data || [];
-  //       const mappedReps = reps.map(rep => ({
-  //         id: rep.employeeId,
-  //         name: rep.userName,
-  //       }));
-  //       setRepresentatives(mappedReps);
-  //     } else {
-  //       setMessage({ text: response.data.message || 'Failed to fetch representatives.', type: 'error' });
-  //     }
-  //   } catch (err) {
-  //     setMessage({ text: err.response?.data?.message || 'Failed to fetch representatives.', type: 'error' });
-  //   }
-  // };
+  
   const fetchRepresentatives = async () => {
     try {
       const response = await axiosInstance.get('/api/bankRepresentative/all');
@@ -81,7 +64,7 @@ const AssignApplications = () => {
         setApplications(draftApps);
         const initialAssignees = {};
         draftApps.forEach(app => {
-          initialAssignees[app.id] = ''; // Default to empty selection
+          initialAssignees[app.id] = ''; 
         });
         setSelectedAssignees(initialAssignees);
       } else {
@@ -115,7 +98,7 @@ const AssignApplications = () => {
       );
       if (response.data.success) {
         setMessage({ text: response.data.message, type: 'success' });
-        fetchApplications(); // Refresh the list after assigning
+        fetchApplications();
       } else {
         setMessage({ text: response.data.message || 'Failed to assign application.', type: 'error' });
       }
@@ -146,7 +129,7 @@ const AssignApplications = () => {
     <div className="assign-applications-container">
       <header className="assign-applications-header">
         <div className="assign-applications-branding">
-          <Link to="/" className="assign-applications-logo">Student Loan Service</Link>
+          <Link to="/bank-representative/dashboard" className="assign-applications-logo">Student Loan Service</Link>
         </div>
         <div className="assign-applications-actions">
           <Link to="/bank-representative/dashboard" className="assign-applications-nav-link">Dashboard</Link>

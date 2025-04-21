@@ -84,11 +84,6 @@ public class LoanApplicationController {
     }
 
     @PostMapping("/approve/{applicationId}")
-//    public ResponseEntity<String> approveApplication(@PathVariable Long applicationId,
-//    												@RequestParam int assigneeId) {
-//        loanService.approveApplication(applicationId, assigneeId);
-//        return ResponseEntity.ok("Application approved successfully");
-//    }
     public ResponseEntity<Map<String, Object>> approveApplication(
             @PathVariable Long applicationId,
             @RequestParam int assigneeId) {
@@ -109,11 +104,7 @@ public class LoanApplicationController {
         }
     }
 
-//    @PostMapping("/reject/{applicationId}")
-//    public ResponseEntity<String> rejectApplication(@PathVariable Long applicationId) {
-//        loanService.rejectApplication(applicationId, 0);
-//        return ResponseEntity.ok("Application rejected successfully");
-//    }
+
     @PostMapping("/reject/{applicationId}")
     public ResponseEntity<Map<String, Object>> rejectApplication(
             @PathVariable Long applicationId) {

@@ -27,6 +27,7 @@ const Login = () => {
     e.preventDefault();
     setMessage({ text: '', type: '' }); 
 
+    console.log(`/api/user/login?email=${(formData.email)}&password=${(formData.password)}`)
     try {
       const response = await axiosInstance.post(
         // `/api/user/login?email=${encodeURIComponent(formData.email)}&password=${encodeURIComponent(formData.password)}`,
@@ -41,6 +42,7 @@ const Login = () => {
 
       console.log(response.data)
       if (response.data.success) {
+        localStorage.setItem('isLoggedIn', 'true');
         setMessage({ text: response.data.message, type: 'success' });
         setTimeout(() => {
           navigate('/bank-representative/dashboard');
